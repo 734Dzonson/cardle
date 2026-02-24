@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CarDle – Guess the Car</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+<div class="scanlines"></div>
+<div class="bg-glow"></div>
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<header>
+  <div class="logo-wrap">
+    <span class="logo-car">🏎️</span>
+    <h1 class="logo-text">CarDle</h1>
+  </div>
+
+  <div class="header-center">
+    <!-- Streak badge -->
+    <div class="streak-badge" id="streakBadge" title="Current streak">
+      🔥 <span id="streakCount">0</span>
+    </div>
+    <!-- Attempts -->
+    <div class="attempt-badge" id="attemptBadge">0 🔍</div>
+  </div>
+
+  <div class="header-right">
+    <!-- Language switcher -->
+    <div class="lang-switcher" id="langSwitcher">
+      <button class="lang-btn active" data-lang="en">🇬🇧</button>
+      <button class="lang-btn" data-lang="pl">🇵🇱</button>
+      <button class="lang-btn" data-lang="es">🇪🇸</button>
+      <button class="lang-btn" data-lang="de">🇩🇪</button>
+      <button class="lang-btn" data-lang="fr">🇫🇷</button>
+    </div>
+    <!-- Nav buttons -->
+    <button class="nav-btn" id="btnLeaderboard" data-i18n="leaderboard">🏅 Board</button>
+    <button class="nav-btn" id="btnProfile" data-i18n="profile">👤 Profile</button>
+    <!-- Countdown -->
+    <div class="countdown-wrap">
+      <span class="countdown-label" data-i18n="nextCar">Next car in</span>
+      <span class="countdown" id="countdown">--:--:--</span>
+    </div>
+    <!-- Dev reset -->
+    <button class="dev-reset-btn" id="devResetBtn">🔄 DEV</button>
+  </div>
+</header>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<main>
+  <!-- User bar (shows after name set) -->
+  <div class="user-bar" id="userBar" style="display:none">
+    <span class="user-greeting" id="userGreeting"></span>
+    <div class="user-stats-mini">
+      <span>🔥 <b id="miniStreak">0</b></span>
+      <span>🏆 <b id="miniWins">0</b></span>
+      <span>📅 <b id="miniPlayed">0</b></span>
+    </div>
+  </div>
+
+  <section class="intro-strip">
+    <p data-i18n="intro">Guess today's mystery car. Each guess reveals clues.</p>
+  </section>
+
+  <!-- Search -->
+  <div class="search-container" id="searchContainer">
+    <div class="search-wrap">
+      <input type="text" id="searchInput" data-i18n-placeholder="searchPlaceholder"
+        placeholder="Type car name… e.g. BMW M3" autocomplete="off" spellcheck="false"/>
+      <button id="guessBtn" data-i18n="guess">GUESS</button>
+    </div>
+    <ul class="autocomplete-list" id="autocompleteList"></ul>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend-row">
+    <span class="legend-item green">✓ <span data-i18n="exact">Exact</span></span>
+    <span class="legend-item yellow">≈ <span data-i18n="close">Close</span></span>
+    <span class="legend-item red">✗ <span data-i18n="wrong">Wrong</span></span>
+    <span class="legend-arrows">↑ ↓ <span data-i18n="higherLower">Higher / Lower</span></span>
+  </div>
+
+  <!-- Guess table -->
+  <div class="table-wrap">
+    <div class="table-scroll">
+      <table id="guessTable">
+        <thead>
+          <tr>
+            <th data-i18n="colPhoto">Photo</th>
+            <th data-i18n="colMake">Manufacturer</th>
+            <th data-i18n="colModel">Model</th>
+            <th data-i18n="colYear">Year</th>
+            <th data-i18n="colCountry">Country</th>
+            <th data-i18n="colBody">Body</th>
+            <th data-i18n="colDrive">Drive</th>
+            <th data-i18n="colEngine">Engine</th>
+            <th>HP</th>
+            <th data-i18n="colDoors">Doors</th>
+          </tr>
+        </thead>
+        <tbody id="guessBody"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<!-- ═══════════════ OVERLAYS ═══════════════ -->
+
+<!-- WIN/LOSE popup -->
+<div class="overlay" id="overlayResult">
+  <div class="popup" id="popupResult">
+    <div class="popup-emoji" id="popupEmoji">🏆</div>
+    <h2 class="popup-title" id="popupTitle">You got it!</h2>
+    <p class="popup-sub" id="popupSub"></p>
+    <div class="popup-car" id="popupCar"></div>
+    <div class="popup-streak" id="popupStreak"></div>
+    <div class="popup-next">
+      <span data-i18n="nextCarIn">Next CarDle in</span>
+      <span class="popup-countdown" id="popupCountdown">--:--:--</span>
+    </div>
+    <div class="popup-share-row">
+      <button class="popup-share-btn" id="btnShare">📋 <span data-i18n="share">Share result</span></button>
+    </div>
+    <button class="popup-close" id="btnCloseResult" data-i18n="close">Close</button>
+  </div>
+</div>
+
+<!-- LEADERBOARD panel -->
+<div class="overlay" id="overlayLeaderboard">
+  <div class="panel" id="panelLeaderboard">
+    <div class="panel-header">
+      <h2 data-i18n="leaderboard">🏅 Leaderboard</h2>
+      <button class="panel-close" id="btnCloseLeaderboard">✕</button>
+    </div>
+    <div class="lb-tabs">
+      <button class="lb-tab active" data-tab="streak" data-i18n="streak">🔥 Streak</button>
+      <button class="lb-tab" data-tab="wins" data-i18n="totalWins">🏆 Wins</button>
+      <button class="lb-tab" data-tab="avg" data-i18n="avgGuesses">🎯 Avg Guesses</button>
+    </div>
+    <ol class="lb-list" id="lbList"></ol>
+    <p class="lb-note" data-i18n="lbNote">Scores stored locally in your browser.</p>
+  </div>
+</div>
+
+<!-- PROFILE panel -->
+<div class="overlay" id="overlayProfile">
+  <div class="panel" id="panelProfile">
+    <div class="panel-header">
+      <h2 data-i18n="profile">👤 Profile</h2>
+      <button class="panel-close" id="btnCloseProfile">✕</button>
+    </div>
+    <div class="profile-content" id="profileContent"></div>
+  </div>
+</div>
+
+<!-- NAME PROMPT (first visit) -->
+<div class="overlay active" id="overlayName">
+  <div class="popup" id="popupName">
+    <div class="popup-emoji">🏎️</div>
+    <h2 class="popup-title" data-i18n="welcomeTitle">Welcome to CarDle!</h2>
+    <p class="popup-sub" data-i18n="welcomeSub">Enter your nickname to track your stats and appear on the leaderboard.</p>
+    <input type="text" id="nicknameInput" maxlength="20" data-i18n-placeholder="nicknamePlaceholder" placeholder="Your nickname…" autocomplete="off"/>
+    <button class="popup-close filled" id="btnSaveName" data-i18n="letsGo">Let's go! 🚀</button>
+    <button class="popup-close ghost" id="btnSkipName" data-i18n="skipGuest">Skip (play as guest)</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
