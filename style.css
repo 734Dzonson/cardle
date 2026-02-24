@@ -51,13 +51,14 @@ body {
 /* ══════════ HEADER ══════════ */
 header {
   position: relative; z-index: 50;
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 1rem;
   padding: 0.9rem 1.8rem;
   border-bottom: 1px solid var(--border);
   background: rgba(10,10,12,0.92);
   backdrop-filter: blur(14px);
-  flex-wrap: wrap;
 }
 
 .logo-wrap { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
@@ -72,7 +73,14 @@ header {
 }
 
 .header-center {
-  display: flex; align-items: center; gap: 0.8rem;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
 }
 
 /* Streak badge */
@@ -116,15 +124,25 @@ header {
   background: transparent;
   border: 1px solid var(--border);
   border-radius: 5px;
-  font-size: 1.1rem;
-  padding: 0.2rem 0.3rem;
+  padding: 0;
+  width: 30px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   opacity: 0.45;
-  transition: opacity 0.15s, border-color 0.15s;
-  line-height: 1;
+  transition: opacity 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+.lang-flag {
+  display: block;
+  width: 24px;
+  height: 16px;
+  border-radius: 3px;
+  object-fit: cover;
 }
 .lang-btn:hover { opacity: 0.8; }
-.lang-btn.active { opacity: 1; border-color: var(--accent); }
+.lang-btn.active { opacity: 1; border-color: var(--accent); box-shadow: 0 0 0 1px rgba(232,255,0,0.3); }
 
 /* Nav buttons */
 .nav-btn {
@@ -521,6 +539,62 @@ tbody tr { animation: rowIn 0.35s ease both; }
 }
 .profile-rename button:hover { border-color: var(--accent); color: var(--accent); }
 
+/* Garage */
+.garage-content { padding: 1.4rem 1.6rem; overflow-y: auto; flex: 1; }
+.garage-summary {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 0.9rem;
+}
+.garage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.8rem;
+}
+.garage-card {
+  background: var(--surface2);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 0.7rem 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 64px;
+}
+.garage-card.locked {
+  opacity: 0.45;
+}
+.garage-thumb {
+  width: 56px;
+  height: 40px;
+  border-radius: 6px;
+  background: var(--surface3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--muted2);
+  overflow: hidden;
+}
+.garage-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.garage-meta {
+  flex: 1;
+}
+.garage-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.garage-sub {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 0.15rem;
+}
+
 /* ══════════ TOAST ══════════ */
 .toast {
   position: fixed; bottom: 2rem; left: 50%;
@@ -538,17 +612,27 @@ tbody tr { animation: rowIn 0.35s ease both; }
 
 /* ══════════ RESPONSIVE ══════════ */
 @media (max-width: 720px) {
-  header { padding: 0.8rem 1rem; gap: 0.6rem; }
+  header {
+    padding: 0.8rem 1rem;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
   .logo-text { font-size: 2rem; }
-  .header-center { gap: 0.5rem; }
-  .header-right { gap: 0.5rem; }
+  .header-center {
+    position: static;
+    transform: none;
+    order: 3;
+    gap: 0.5rem;
+  }
+  .header-right {
+    order: 2;
+    gap: 0.5rem;
+  }
   .countdown-wrap { display: none; }
   main { padding: 1.2rem 0.9rem 4rem; }
   .profile-stats-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 480px) {
-  header { flex-direction: column; align-items: flex-start; }
   .header-right { width: 100%; }
-  .lang-btn { font-size: 0.95rem; }
 }

@@ -31,14 +31,25 @@
   <div class="header-right">
     <!-- Language switcher -->
     <div class="lang-switcher" id="langSwitcher">
-      <button class="lang-btn active" data-lang="en">🇬🇧</button>
-      <button class="lang-btn" data-lang="pl">🇵🇱</button>
-      <button class="lang-btn" data-lang="es">🇪🇸</button>
-      <button class="lang-btn" data-lang="de">🇩🇪</button>
-      <button class="lang-btn" data-lang="fr">🇫🇷</button>
+      <button class="lang-btn active" data-lang="en" aria-label="English">
+        <img class="lang-flag" src="flags/gb.png" alt="English"/>
+      </button>
+      <button class="lang-btn" data-lang="pl" aria-label="Polski">
+        <img class="lang-flag" src="flags/pl.png" alt="Polski"/>
+      </button>
+      <button class="lang-btn" data-lang="es" aria-label="Español">
+        <img class="lang-flag" src="flags/es.png" alt="Español"/>
+      </button>
+      <button class="lang-btn" data-lang="de" aria-label="Deutsch">
+        <img class="lang-flag" src="flags/de.png" alt="Deutsch"/>
+      </button>
+      <button class="lang-btn" data-lang="fr" aria-label="Français">
+        <img class="lang-flag" src="flags/fr.png" alt="Français"/>
+      </button>
     </div>
     <!-- Nav buttons -->
     <button class="nav-btn" id="btnLeaderboard" data-i18n="leaderboard">🏅 Board</button>
+    <button class="nav-btn" id="btnGarage" data-i18n="garage">🚗 Garage</button>
     <button class="nav-btn" id="btnProfile" data-i18n="profile">👤 Profile</button>
     <!-- Countdown -->
     <div class="countdown-wrap">
@@ -79,7 +90,7 @@
   <!-- Legend -->
   <div class="legend-row">
     <span class="legend-item green">✓ <span data-i18n="exact">Exact</span></span>
-    <span class="legend-item yellow">≈ <span data-i18n="close">Close</span></span>
+    <span class="legend-item yellow">≈ <span data-i18n="closeGuess">Close</span></span>
     <span class="legend-item red">✗ <span data-i18n="wrong">Wrong</span></span>
     <span class="legend-arrows">↑ ↓ <span data-i18n="higherLower">Higher / Lower</span></span>
   </div>
@@ -154,6 +165,17 @@
       <button class="panel-close" id="btnCloseProfile">✕</button>
     </div>
     <div class="profile-content" id="profileContent"></div>
+  </div>
+</div>
+
+<!-- GARAGE panel -->
+<div class="overlay" id="overlayGarage">
+  <div class="panel" id="panelGarage">
+    <div class="panel-header">
+      <h2 data-i18n="garage">🚗 Garage</h2>
+      <button class="panel-close" id="btnCloseGarage">✕</button>
+    </div>
+    <div class="garage-content" id="garageContent"></div>
   </div>
 </div>
 
